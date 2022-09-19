@@ -63,6 +63,11 @@ charts = [
         'min_kubernetes': '1.14.0-0'
     },
     {
+        'source': 'https://raw.githubusercontent.com/GPegel/test-alerts/main/test.yaml',
+        'destination': '../templates/prometheus/rules-1.14',
+        'min_kubernetes': '1.14.0-0'
+    },
+    {
         'source': 'https://raw.githubusercontent.com/etcd-io/etcd/main/contrib/mixin/mixin.libsonnet',
         'destination': '../templates/prometheus/rules-1.14',
         'min_kubernetes': '1.14.0-0',
