@@ -125,4 +125,25 @@ spec:
 {{ toYaml .Values.defaultRules.additionalRuleLabels | indent 8 }}
 {{- end }}
 {{- end }}
+{{- if not (.Values.defaultRules.disabled.Testje | default false) }}
+    - alert: Testje2
+      annotations:
+{{- if .Values.defaultRules.additionalRuleAnnotations }}
+{{ toYaml .Values.defaultRules.additionalRuleAnnotations | indent 8 }}
+{{- end }}
+        description: test2-kube-state-metrics shards are missing, some Kubernetes objects are not being exposed.
+        runbook_url: {{ .Values.defaultRules.runbookUrl }}/test-kube-state-metrics/testje
+        summary: testjes are missing.
+      expr: |-
+        2^max(kube_state_metrics_total_shards{job="test2-kube-state-metrics"}) - 1
+          -
+        sum( 2 ^ max by (shard_ordinal) (kube_state_metrics_shard_ordinal{job="test2-kube-state-metrics"}) )
+        != 0
+      for: 15m
+      labels:
+        severity: critical
+{{- if .Values.defaultRules.additionalRuleLabels }}
+{{ toYaml .Values.defaultRules.additionalRuleLabels | indent 8 }}
+{{- end }}
+{{- end }}
 {{- end }}
